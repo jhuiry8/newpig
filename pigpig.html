@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pig 私人入口網站</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 頁首動畫 */
+        header {
+            background-color: #333;
+            padding: 10px 0;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            position: relative;
+            animation: slideDown 1s ease-in-out;
+        }
+
+        /* 商標 */
+        .logo {
+            display: block;
+            margin: 20px auto;
+            max-width: 150px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        h1 {
+            color: #333;
+            margin: 30px 0;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 30px auto;
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .button-container {
+            margin: 20px 0;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .button i {
+            margin-right: 8px;
+        }
+
+        /* 頁腳動畫 */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            animation: slideUp 1s ease-in-out;
+        }
+
+        /* 動畫效果 */
+        @keyframes slideDown {
+            from { top: -100px; opacity: 0; }
+            to { top: 0; opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { bottom: -100px; opacity: 0; }
+            to { bottom: 0; opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .button {
+                width: 80%;
+                margin: 10px auto;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首區域 -->
+    <header>
+        Pig 私人入口網站
+    </header>
+
+    <!-- 商標 -->
+    <img src="https://example.com/logo.png" alt="Pig商標" class="logo">
+
+    <!-- 主體內容 -->
+    <div class="container">
+        <h1>歡迎來到 Pig 私人入口網站</h1>
+        <p>這裡是您管理和瀏覽私人內容的入口，請選擇您想要使用的功能。</p>
+        <div class="button-container">
+            <a href="https://dcs.loser.pp.ua/" class="button"><i>🔧</i> PIG聊天系統</a>
+            <a href="https://docs.pigwin.pp.ua/foxmcserver" class="button"><i>📂</i> PIG伺服器文檔</a>
+            <a href="http://awa.freeserver.tw:22073/" class="button"><i>📊</i> PIG文字獄系統</a>
+            <a href="https://piginc.pp.ua/" class="button"><i>💬</i> PIG網站</a>
+            <a href="https://dream.piginc.pp.ua/" class="button"><i>⚙️</i> 伺服器網站</a>
+        </div>
+    </div>
+
+    <!-- 頁腳區域 -->
+    <footer>
+        &copy; 2024 Pig 私人入口網站. 版權所有.
+    </footer>
+
+</body>
+</html>
