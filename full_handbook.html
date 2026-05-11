@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+  font-size: 10.5pt;
+  color: #1E293B;
+  line-height: 1.75;
+  background: white;
+}
+.page-break { page-break-after: always; }
+
+/* Cover */
+.cover {
+  background: #0D1B3E;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 60px 80px; text-align: center;
+}
+.cover h1 { font-size:26pt; font-weight:900; color:white; margin-bottom:10px; letter-spacing:2px; }
+.cover h2 { font-size:18pt; font-weight:700; color:#F58A07; margin-bottom:30px; }
+.cover hr { width:180px; border:none; border-top:2px solid #F58A07; margin:24px auto; }
+.cover-meta { color:#94A3B8; font-size:11pt; line-height:2.2; }
+.cover-meta span { color:#4AB4E6; }
+.cover-badge {
+  display:inline-block; background:#F58A07; color:white;
+  padding:6px 20px; border-radius:20px; font-size:11pt;
+  font-weight:700; margin-bottom:24px; letter-spacing:1px;
+}
+
+/* Page chrome */
+.page-header {
+  background:#0D1B3E; color:#94A3B8; font-size:8.5pt;
+  padding:5px 18px; display:flex; justify-content:space-between;
+}
+.page-header span:last-child { color:#4AB4E6; }
+.page { padding:22px 36px 26px 36px; }
+
+/* Chapter header */
+.ch-header {
+  background:#0D1B3E; padding:18px 22px;
+  border-left:6px solid #F58A07; border-right:6px solid #F58A07;
+  margin-bottom:20px;
+}
+.ch-header .ch-label { font-size:10pt; color:#4AB4E6; margin-bottom:3px; }
+.ch-header h2 { font-size:20pt; font-weight:700; color:white; }
+.ch-header .ch-meta { font-size:9.5pt; color:#64748B; margin-top:6px; }
+.ch-header .ch-meta span { color:#F58A07; }
+
+/* Section headings */
+h3 { font-size:13pt; font-weight:700; color:#0D1B3E; margin:18px 0 7px;
+  padding-bottom:3px; border-bottom:2px solid #0D1B3E; }
+h4 { font-size:11.5pt; font-weight:700; color:#1B6CA8; margin:13px 0 5px; }
+
+p { margin-bottom:7px; }
+ul, ol { padding-left:20px; margin-bottom:9px; }
+li { margin-bottom:3px; }
+
+/* Tables */
+table { width:100%; border-collapse:collapse; margin:10px 0; font-size:10pt; }
+thead tr { background:#0D1B3E; color:white; }
+thead th { padding:8px 10px; text-align:left; font-weight:700; }
+tbody tr:nth-child(odd)  { background:white; }
+tbody tr:nth-child(even) { background:#F0F5FA; }
+tbody td { padding:7px 10px; border:1px solid #E2E8F0; vertical-align:top; }
+
+/* Boxes */
+.info-box { background:#F0F5FA; border-left:4px solid #1B6CA8; padding:12px 16px; margin:12px 0; border-radius:0 5px 5px 0; }
+.warn-box { background:#FFF7ED; border-left:4px solid #F58A07; padding:12px 16px; margin:12px 0; border-radius:0 5px 5px 0; }
+.tip-box  { background:#F0FDF4; border-left:4px solid #16A34A; padding:12px 16px; margin:12px 0; border-radius:0 5px 5px 0; }
+.summary-box { background:#0D1B3E; color:white; padding:14px 18px; margin-top:18px; border-left:5px solid #F58A07; }
+.summary-box h4 { color:#4AB4E6; margin-top:0; }
+.summary-box li { color:#E2E8F0; margin-bottom:3px; }
+
+strong { font-weight:700; }
+.red { color:#DC2626; font-weight:700; }
+.key { color:#F58A07; font-weight:700; }
+.blue { color:#1B6CA8; font-weight:700; }
+
+/* Quiz section */
+.quiz-section { background:#F8FAFC; border:1px solid #E2E8F0; padding:18px 22px; margin-top:20px; border-radius:6px; }
+.quiz-section h3 { border-bottom:2px solid #1B6CA8; color:#1B6CA8; }
+.q-item { margin-bottom:14px; padding-bottom:12px; border-bottom:1px dashed #E2E8F0; }
+.q-item:last-child { border-bottom:none; }
+.q-num { font-weight:700; color:#0D1B3E; }
+.q-text { margin-bottom:5px; }
+.q-opts { padding-left:16px; }
+.q-opts li { list-style:none; margin-bottom:2px; font-size:10pt; }
+.answer-key { background:#0D1B3E; color:#94A3B8; padding:10px 16px; margin-top:14px; font-size:9.5pt; border-radius:4px; }
+.answer-key span { color:#F58A07; font-weight:700; }
+
+/* TOC */
+.toc-ch { display:flex; justify-content:space-between; align-items:center;
+  padding:9px 0; border-bottom:1px solid #E2E8F0; }
+.toc-ch-name { font-weight:700; color:#0D1B3E; font-size:11.5pt; }
+.toc-ch-hours { color:#F58A07; font-size:10pt; font-weight:700; }
+.toc-topic { color:#64748B; font-size:10pt; }
+
+/* Key concept card */
+.concept-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:10px 0; }
+.concept-card { background:white; border:1px solid #E2E8F0; padding:10px 14px; border-radius:4px; border-top:3px solid #1B6CA8; }
+.concept-card.orange { border-top-color:#F58A07; }
+.concept-card.green  { border-top-color:#16A34A; }
+.concept-card.purple { border-top-color:#7C3AED; }
+.concept-card h5 { font-size:10.5pt; font-weight:700; color:#0D1B3E; margin-bottom:4px; }
+.concept-card p  { font-size:9.5pt; color:#475569; margin:0; }
+</style>
+</head>
+<body>
+
+<!-- ═══ COVER ═══ -->
+<div class="cover">
+  <div class="cover-badge">普通操作證學科測驗完整課程</div>
+  <h1>遙控無人機操作人<br>學科課程講義</h1>
+  <h2>九章・十八小時完整學習計畫</h2>
+  <hr>
+  <div class="cover-meta">
+    <p>依民航局普通操作證學科測驗題庫編製</p>
+    <p>適用：<span>休閒娛樂 ｜ 商業飛行 ｜ 證照考試</span> 之學科準備</p>
+    <br>
+    <p>國立臺北科技大學無人機社　<span>@ntut_drone</span></p>
+  </div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══ TOC ═══ -->
+<div class="page-header"><span>國立臺北科技大學無人機社</span><span>遙控無人機學科課程講義</span></div>
+<div class="page">
+  <h3>課程目錄與時間規劃</h3>
+  <p style="color:#64748B; margin-bottom:14px;">全課程共 <strong>9 章、18 小時</strong>，每章 2 小時，含講義教學與習題練習。</p>
+
+  <div class="toc-ch"><span class="toc-ch-name">第一章　遙控無人機概論與法規架構</span><span class="toc-ch-hours">2 小時</span></div>
+  <div class="toc-ch"><span class="toc-ch-name">第二章　遙控無人機法定義務與罰則</span><span class="toc-ch-hours">2 小時</span></div>
+  <div class="toc-ch"><span class="toc-ch-name">第三章　飛行系統與機體結構</span><span class="toc-ch-hours">2 小時</span></div>
+  <div class="toc-ch"><span class="toc-ch-name">第四章　空氣動力學基礎</span><span class="toc-ch-hours">2 小時</span></div>
+  <div class="toc-ch"><span class="toc-ch-name">第五章　無人機類型與操控原理</span><span class="toc-ch-hours">2 小時</span></div>
+  <div class="toc-ch"><span class="toc-ch-name">第六章　重量平衡與飛行性能</span><span class="toc-ch-hours">2 小時</span></div>
+  <div class="toc-ch"><span class="toc-ch-name">第七章　氣象知識與飛行環境</span><span class="toc-ch-hours">2 小時</span></div>
+  <div class="toc-ch"><span class="toc-ch-name">第八章　緊急處置與人為因素</span><span class="toc-ch-hours">2 小時</span></div>
+  <div class="toc-ch"><span class="toc-ch-name">第九章　飛行決策與綜合模擬測驗</span><span class="toc-ch-hours">2 小時</span></div>
+
+  <div class="info-box" style="margin-top:18px;">
+    <h4>課程使用說明</h4>
+    <ul>
+      <li>每章講義建議<strong>課前預習</strong>，課堂補充說明後進行習題演練</li>
+      <li>習題均選自民航局<strong>普通操作證學科測驗題庫</strong>，完整對應考試範圍</li>
+      <li>每章末附<strong>答案解析</strong>，協助社員理解錯誤原因</li>
+      <li>第九章為<strong>綜合模擬測驗</strong>，跨章節出題，模擬正式考試情境</li>
+    </ul>
+  </div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 1: 概論與法規架構
+════════════════════════════════════════════ -->
+<div class="page-header"><span>國立臺北科技大學無人機社</span><span>遙控無人機學科課程講義</span></div>
+<div class="page">
+<div class="ch-header">
+  <div class="ch-label">第一章　2 小時</div>
+  <h2>遙控無人機概論與法規架構</h2>
+  <div class="ch-meta">對應題庫：第一章民用航空法（前段）｜考試比重：<span>約 25%</span></div>
+</div>
+
+<h3>一、遙控無人機的定義</h3>
+<p>依我國《民用航空法》，<strong>遙控無人機</strong>係指「自遙控設備以信號鏈路進行飛航控制之無人航空器」。此定義涵蓋消費級空拍機、FPV穿越機、農業噴灑機等各類型。</p>
+<p>法規的適用範圍以「<strong>建築物外開放空間</strong>」為原則。在密閉建築物室內飛行，不適用民用航空法遙控無人機相關規定。</p>
+
+<div class="concept-grid">
+  <div class="concept-card">
+    <h5>遙控無人機系統三大次系統</h5>
+    <p>① 遙控無人機體（飛行載具）<br>② 遙控設備（地面控制站）<br>③ 通訊及控制信號鏈路</p>
+  </div>
+  <div class="concept-card orange">
+    <h5>飛行載具組成</h5>
+    <p>機體 ＋ 燃料或電池 ＋ 負載設備及酬載</p>
+  </div>
+  <div class="concept-card green">
+    <h5>遙控設備硬體</h5>
+    <p>訊號傳輸設備 ＋ 指令傳輸設備 ＋ 資訊接收分析設備</p>
+  </div>
+  <div class="concept-card purple">
+    <h5>法規適用空間</h5>
+    <p>建築物外開放空間✔<br>密閉室內空間✘（不適用）</p>
+  </div>
+</div>
+
+<h3>二、法規架構與主管機關</h3>
+<p>台灣無人機法規體系以《民用航空法》第九章之一為核心，由<strong>交通部民用航空局（CAA）</strong>負責制定與執行。地方政府（直轄市、縣市政府）在法定框架下，可依公益及安全需要對活動區域、時間及管理事項進行公告。</p>
+
+<table>
+  <thead><tr><th>層級</th><th>主管機關</th><th>職權</th></tr></thead>
+  <tbody>
+    <tr><td>中央</td><td>交通部民航局</td><td>制定法規、發放操作證、核准特殊飛行申請、公告禁航限航區</td></tr>
+    <tr><td>地方</td><td>直轄市、縣（市）政府</td><td>依公益安全需要公告活動區域、時間及管理事項</td></tr>
+    <tr><td>場域</td><td>禁限航區管理人</td><td>未經同意飛入時，得採取適當措施予以制止或排除</td></tr>
+    <tr><td>機場</td><td>航空警察局</td><td>協助取締未經同意飛入機場四周一定距離範圍之無人機</td></tr>
+  </tbody>
+</table>
+
+<h3>三、空域管制規定</h3>
+<h4>（一）禁航區與限航區</h4>
+<p>未經許可，<strong>不得飛航於禁航區</strong>；在限航區飛行亦受相應限制。違規飛入時，禁限航區之管理人得採取適當措施予以制止或排除。</p>
+
+<h4>（二）機場周邊管制</h4>
+<p>航空站或飛行場四周之一定距離範圍，由<strong>民航局</strong>進行公告。未經同意飛入者，航空站或飛行場之經營人或管理人得會同<strong>航空警察局</strong>予以取締。</p>
+
+<h4>（三）休閒娛樂用途飛行限制</h4>
+<ul>
+  <li>飛行實際高度：<strong>不得逾距地面或水面 400 呎</strong>（約 120 公尺）</li>
+  <li>禁止飛行區域：禁航區、限航區、機場四周一定距離範圍、人群聚集或室外集會遊行上空</li>
+  <li>禁止飛行時間：<strong>夜間</strong>（日落後至日出前，未取得許可者）</li>
+  <li>同時操控架數：<strong>最多 1 架</strong></li>
+</ul>
+
+<h4>（四）特殊申請飛行</h4>
+<p>政府機關（構）、學校或法人因執行業務需在禁限航區、機場四周一定距離範圍內飛行者，應申請<strong>民航局</strong>會商目的事業主管機關同意後始得為之。</p>
+<p>於直轄市、縣（市）政府公告區域外飛行者，應申請<strong>直轄市、縣（市）政府</strong>會商相關中央主管機關同意。</p>
+
+<h3>四、操作人的基本義務</h3>
+<ul>
+  <li>飛航活動期間，<strong>所有人或操作人</strong>應負使用安全、風險管理、法規遵循之責</li>
+  <li>操作時不得從事<strong>非法行為</strong></li>
+  <li>不得無故對他人進行：<strong>攝錄非公開活動、竊聽私下談話、窺視身體隱私部位</strong></li>
+  <li>未經同意不得對他人進行：<strong>照相、錄影、錄音、電磁紀錄竊錄</strong></li>
+  <li>不得無故於<strong>私人庭院、學校教室、辦公室場所</strong>等處進行飛航</li>
+  <li>操作人應隨時留意周遭狀況，防止與其他飛行器之接近或碰撞</li>
+  <li>僅透過即時傳輸圖像<strong>不足以</strong>監控鏡頭外周遭狀況，操作人仍須保持目視</li>
+</ul>
+
+<div class="warn-box">
+  <h4>⚠ 重點提醒：外籍人士</h4>
+  <p>外國人領有外國政府核發之遙控無人機相關證件者，必須向<strong>民航局</strong>申請認可後，在遵守我國相關法令下從事遙控無人機活動。</p>
+</div>
+
+<div class="summary-box">
+  <h4>第一章重點整理</h4>
+  <ul>
+    <li>遙控無人機：「自遙控設備以信號鏈路進行飛航控制之無人航空器」</li>
+    <li>法規適用於建築物外開放空間，室內不適用</li>
+    <li>民航局為中央主管機關，地方政府可公告管理事項</li>
+    <li>休閒娛樂飛行高度上限：400 呎（約 120 公尺）</li>
+    <li>操作人負有使用安全、風險管理、法規遵循三大責任</li>
+  </ul>
+</div>
+
+<!-- QUIZ CH1 -->
+<div class="quiz-section">
+<h3>第一章 習題演練（15 題）</h3>
+
+<div class="q-item">
+  <p class="q-num">1.</p>
+  <p class="q-text">遙控無人機定義為何？</p>
+  <ul class="q-opts">
+    <li>(A) 自遙控設備以信號鏈路進行飛航控制之無人航空器</li>
+    <li>(B) 自遙控設備以自動駕駛操作之無人航空器</li>
+    <li>(C) 其他經民航局公告之無人航空器</li>
+    <li>(D) 以上皆是</li>
+  </ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">2.</p>
+  <p class="q-text">於何處進行遙控無人機飛航活動適用民用航空法之「遙控無人機」相關規定？</p>
+  <ul class="q-opts">
+    <li>(A) 建築物內密閉空間</li>
+    <li>(B) 建築物外開放空間</li>
+    <li>(C) 任何空間</li>
+    <li>(D) 以上皆非</li>
+  </ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">3.</p>
+  <p class="q-text">從事休閒娛樂用途之遙控無人機活動，其飛航實際高度不得逾距地面或水面多少高度？</p>
+  <ul class="q-opts">
+    <li>(A) 800呎</li><li>(B) 400呎</li><li>(C) 200呎</li><li>(D) 100呎</li>
+  </ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">4.</p>
+  <p class="q-text">操作人於從事休閒娛樂用途之遙控無人機飛航活動時，最多得同時控制幾架遙控無人機？</p>
+  <ul class="q-opts">
+    <li>(A) 1架</li><li>(B) 2架</li><li>(C) 3架</li><li>(D) 無限制</li>
+  </ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">5.</p>
+  <p class="q-text">航空站或飛行場四周之一定距離範圍係由哪個機關進行公告？</p>
+  <ul class="q-opts">
+    <li>(A) 民航局</li><li>(B) 衛福部</li><li>(C) 內政部</li><li>(D) 文化部</li>
+  </ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">6.</p>
+  <p class="q-text">遙控無人機系統包含下列哪項主要次系統？</p>
+  <ul class="q-opts">
+    <li>(A) 遙控無人機體</li>
+    <li>(B) 遙控設備</li>
+    <li>(C) 通訊及控制信號鏈路</li>
+    <li>(D) 以上皆是</li>
+  </ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">7.</p>
+  <p class="q-text">操作人不得無故利用遙控無人機對他人進行何種行為？</p>
+  <ul class="q-opts">
+    <li>(A) 攝錄非公開活動</li>
+    <li>(B) 竊聽私下談話</li>
+    <li>(C) 窺視身體隱私部位</li>
+    <li>(D) 以上皆是</li>
+  </ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">8.</p>
+  <p class="q-text">遙控無人機活動期間，其所有人或操作人應負責任為何？</p>
+  <ul class="q-opts">
+    <li>(A) 使用安全之責</li>
+    <li>(B) 風險管理之責</li>
+    <li>(C) 法規遵循之責</li>
+    <li>(D) 以上皆是</li>
+  </ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">9.</p>
+  <p class="q-text">遙控無人機未經同意飛入航空站或飛行場四周之一定距離範圍內者，得會同何者予以取締？</p>
+  <ul class="q-opts">
+    <li>(A) 當地里長</li><li>(B) 地方派出所</li><li>(C) 航空警察局</li><li>(D) 交通警察大隊</li>
+  </ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">10.</p>
+  <p class="q-text">操作人僅透過遙控無人機即時傳輸圖像功能，是否即足以監控鏡頭外之周遭狀況？</p>
+  <ul class="q-opts">
+    <li>(A) 否</li><li>(B) 是</li><li>(C) 視傳輸圖像清晰度而定</li><li>(D) 視天氣狀況而定</li>
+  </ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">11.</p>
+  <p class="q-text">政府機關（構）、學校或法人因執行業務需於禁、限航區及航空站四周一定距離範圍內從事飛航活動者，應申請何者會商同意？</p>
+  <ul class="q-opts">
+    <li>(A) 鄉鎮區公所</li><li>(B) 衛福部</li><li>(C) 民航局</li><li>(D) 科技部</li>
+  </ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">12.</p>
+  <p class="q-text">遙控無人機如為不法份子作為犯罪工具或因不當操作而致失控墜落者，可能導致何種後果？</p>
+  <ul class="q-opts">
+    <li>(A) 造成他人生命財產之損失</li>
+    <li>(B) 危害公共利益</li>
+    <li>(C) 影響飛航安全</li>
+    <li>(D) 以上皆是</li>
+  </ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">13.</p>
+  <p class="q-text">直轄市、縣（市）政府依民航法第99條之13第2項規範之區域內，得依公益及安全需要進行哪些項目之公告？</p>
+  <ul class="q-opts">
+    <li>(A) 遙控無人機活動區域</li>
+    <li>(B) 遙控無人機活動時間</li>
+    <li>(C) 其他管理事項</li>
+    <li>(D) 以上皆是</li>
+  </ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">14.</p>
+  <p class="q-text">遙控無人機未經同意飛入禁航區、限航區，得由何者採取適當措施予以制止或排除？</p>
+  <ul class="q-opts">
+    <li>(A) 交通警察大隊</li>
+    <li>(B) 禁航區、限航區之管理人</li>
+    <li>(C) 鄉鎮區公所</li>
+    <li>(D) 地方派出所</li>
+  </ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">15.</p>
+  <p class="q-text">外國人領有外國政府核發遙控無人機相關證明文件者，必須向哪個單位申請認可後始得從事遙控無人機活動？</p>
+  <ul class="q-opts">
+    <li>(A) 外交部</li><li>(B) 駐外單位</li><li>(C) 民航局</li><li>(D) 科技部</li>
+  </ul>
+</div>
+
+<div class="answer-key">
+  <strong>第一章答案：</strong>
+  <span>1.(A)　2.(B)　3.(B)　4.(A)　5.(A)　6.(D)　7.(D)　8.(D)　9.(C)　10.(A)　11.(C)　12.(D)　13.(D)　14.(B)　15.(C)</span>
+</div>
+</div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 2: 法定義務與罰則
+════════════════════════════════════════════ -->
+<div class="page-header"><span>國立臺北科技大學無人機社</span><span>遙控無人機學科課程講義</span></div>
+<div class="page">
+<div class="ch-header">
+  <div class="ch-label">第二章　2 小時</div>
+  <h2>遙控無人機法定義務與罰則</h2>
+  <div class="ch-meta">對應題庫：第一章民用航空法（後段）｜考試比重：<span>約 20%</span></div>
+</div>
+
+<h3>一、強制登記義務</h3>
+<p>遙控無人機所有人依法必須辦理<strong>登記</strong>，取得登記識別碼並標明於機體。未辦理登記而操作，將受罰。</p>
+<div class="warn-box">
+  <h4>⚠ 重量門檻（以現行規定為準）</h4>
+  <p>目前法規規定起飛重量達一定標準以上之遙控無人機須強制登記，請於考試前至民航局官網確認最新重量門檻。</p>
+</div>
+
+<h3>二、操作證制度</h3>
+<p>操作證考取目的，係為確保操作人於<strong>操作前及操作時</strong>能熟悉相關航空知識與管理規範，並具備一定操作熟練度及緊急處置能力。</p>
+<table>
+  <thead><tr><th>情形</th><th>是否需要操作證</th><th>備註</th></tr></thead>
+  <tbody>
+    <tr><td>休閒娛樂用途</td><td>需要（普通操作證）</td><td>超過特定重量門檻</td></tr>
+    <tr><td>代農會執行農藥噴灑</td><td>需要（學術科均須通過）</td><td>業務用途需通過學科+術科</td></tr>
+    <tr><td>政府機關業務</td><td>依規定申請核准</td><td>另需投保責任保險</td></tr>
+  </tbody>
+</table>
+
+<h3>三、保險義務</h3>
+<ul>
+  <li><strong>為法人從事業務</strong>之遙控無人機操作人，依法須強制加入<strong>責任險</strong></li>
+  <li>政府機關（構）、學校或法人於從事民航局核准之飛航活動前，應依法投保責任保險</li>
+  <li>休閒娛樂性質活動，活動風險以<strong>自我管理</strong>方式為主</li>
+</ul>
+
+<h3>四、民事賠償責任</h3>
+<ul>
+  <li>遙控無人機於飛航活動期間造成他人損害，<strong>所有人應負賠償責任</strong></li>
+  <li>所有人將無人機交由他人操作而不慎墜落傷人，所有人與操作人應負<strong>連帶賠償責任</strong></li>
+</ul>
+
+<h3>五、罰則一覽表</h3>
+<table>
+  <thead><tr><th>違規行為</th><th>主要罰則</th><th>其他</th></tr></thead>
+  <tbody>
+    <tr><td>在禁航區、限航區及機場四周飛行</td><td class="red">新臺幣 6 萬元以上 150 萬元以下罰鍰</td><td>廢止操作證、得沒入無人機</td></tr>
+    <tr><td>超高飛行（逾400呎）</td><td class="red">新臺幣 3 萬元以上 15 萬元以下罰鍰</td><td>廢止操作證、得沒入無人機</td></tr>
+    <tr><td>未領有操作證而操作</td><td class="red">新臺幣 6,000 元以上 3 萬元以下罰鍰</td><td>禁止活動、得沒入無人機</td></tr>
+    <tr><td>未投保或未足額投保責任險</td><td class="red">新臺幣 6,000 元以上 3 萬元以下罰鍰</td><td>禁止活動、得沒入無人機</td></tr>
+    <tr><td>違反登記或標明識別碼規定</td><td class="red">新臺幣 3,000 元以上 1.5 萬元以下罰鍰</td><td>禁止活動、得沒入無人機</td></tr>
+    <tr><td>違反縣市政府公告之區域、時間</td><td class="red">新臺幣 3,000 元以上 1.5 萬元以下罰鍰</td><td>禁止活動、得沒入無人機</td></tr>
+    <tr><td>違反遙控無人機飛航活動應遵守規定</td><td class="red">新臺幣 3,000 元以上 1.5 萬元以下罰鍰</td><td>禁止活動、得沒入無人機</td></tr>
+    <tr><td>違反射頻識別、檢驗、通報等規定</td><td class="red">新臺幣 6,000 元以上 3 萬元以下罰鍰</td><td>禁止活動、得沒入無人機</td></tr>
+  </tbody>
+</table>
+
+<div class="tip-box">
+  <h4>💡 記憶技巧：罰則金額由大到小</h4>
+  <p>禁限航區違規最重（6萬~150萬）→ 超高飛行次之（3萬~15萬）→ 無操作證、未投保（6千~3萬）→ 未登記、違反地方公告（3千~1.5萬）</p>
+</div>
+
+<h3>六、對處罰的理解</h3>
+<p>對違反規範之遙控無人機操作人及所有人所為之處罰，目的在於：<strong>維持社會秩序、增進公共利益、維護公共安全</strong>（以上皆是）。</p>
+<p>罰鍰額度，係衡量<strong>公眾利益及安全財產危害程度</strong>而定。</p>
+
+<div class="summary-box">
+  <h4>第二章重點整理</h4>
+  <ul>
+    <li>操作證目的：確保操作人「操作前及操作時」熟悉知識規範</li>
+    <li>為法人從事業務者須強制投保責任險</li>
+    <li>所有人交由他人操作致傷人，兩者負連帶賠償責任</li>
+    <li>最重罰則：禁限航區違規，罰 6 萬元以上至 150 萬元以下</li>
+    <li>罰則衡量基準：公眾利益及安全財產危害程度</li>
+  </ul>
+</div>
+
+<div class="quiz-section">
+<h3>第二章 習題演練（12 題）</h3>
+
+<div class="q-item">
+  <p class="q-num">1.</p>
+  <p class="q-text">操作證考取目的係為確保操作人於哪個階段能熟悉相關航空知識與管理規範？</p>
+  <ul class="q-opts"><li>(A) 操作前及操作時</li><li>(B) 操作前及操作後</li><li>(C) 操作前</li><li>(D) 操作後</li></ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">2.</p>
+  <p class="q-text">為法人從事業務之遙控無人機操作人，依法須強制加入何種保險？</p>
+  <ul class="q-opts"><li>(A) 積水險</li><li>(B) 責任險</li><li>(C) 地震險</li><li>(D) 颱風險</li></ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">3.</p>
+  <p class="q-text">某遙控無人機操作人欲代地方農會執行農藥噴灑作業，以下敘述何者正確？</p>
+  <ul class="q-opts"><li>(A) 該操作人須通過學、術科測驗</li><li>(B) 該操作人不須通過術科測驗</li><li>(C) 執行農藥噴灑作業前不需經申請核准</li><li>(D) 以上皆是</li></ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">4.</p>
+  <p class="q-text">遙控無人機所有人將其遙控無人機交由他人進行操作而不慎墜落傷人，應由何人負連帶賠償責任？</p>
+  <ul class="q-opts"><li>(A) 所有人</li><li>(B) 操作人</li><li>(C) 所有人與操作人</li><li>(D) 受害人自行承擔</li></ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">5.</p>
+  <p class="q-text">遙控無人機所有人或操作人違反「禁航區、限航區及機場四周飛行」規定者，另處多少新臺幣之罰鍰？</p>
+  <ul class="q-opts"><li>(A) 3,000 元以上 1.5 萬元以下</li><li>(B) 3 萬元以上 15 萬元以下</li><li>(C) 6 萬元以上 150 萬元以下</li><li>(D) 6,000 元以上 3 萬元以下</li></ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">6.</p>
+  <p class="q-text">遙控無人機所有人或操作人違反「不得逾距地面或水面高度400呎從事飛航活動」規定者，處多少新臺幣之罰鍰？</p>
+  <ul class="q-opts"><li>(A) 新臺幣 3 萬元以上 15 萬元以下</li><li>(B) 新臺幣 6 萬元以上 150 萬元以下</li><li>(C) 新臺幣 6,000 元以上 3 萬元以下</li><li>(D) 新臺幣 3,000 元以上 1.5 萬元以下</li></ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">7.</p>
+  <p class="q-text">遙控無人機之所有人或操作人違反「未領有操作證而操作」規定者，處多少新臺幣之罰鍰？</p>
+  <ul class="q-opts"><li>(A) 新臺幣 6,000 元以上 3 萬元以下</li><li>(B) 新臺幣 6 萬元以上 150 萬元以下</li><li>(C) 新臺幣 3 萬元以上 15 萬元以下</li><li>(D) 新臺幣 3,000 元以上 1.5 萬元以下</li></ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">8.</p>
+  <p class="q-text">遙控無人機之所有人或操作人違反「遙控無人機註冊或標明註冊號碼」相關規定者，處多少新臺幣之罰鍰？</p>
+  <ul class="q-opts"><li>(A) 新臺幣 3,000 元以上 1.5 萬元以下</li><li>(B) 新臺幣 6,000 元以上 3 萬元以下</li><li>(C) 新臺幣 3 萬元以上 15 萬元以下</li><li>(D) 新臺幣 6 萬元以上 150 萬元以下</li></ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">9.</p>
+  <p class="q-text">對違反規範之遙控無人機操作人及所有人所為之處罰，係欲達到哪個目的？</p>
+  <ul class="q-opts"><li>(A) 維持社會秩序</li><li>(B) 增進公共利益</li><li>(C) 維護公共安全</li><li>(D) 以上皆是</li></ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">10.</p>
+  <p class="q-text">針對違反規範之遙控無人機操作人及所有人所處以罰鍰額度，係衡量何種因素而定？</p>
+  <ul class="q-opts"><li>(A) 公眾利益及安全財產危害程度</li><li>(B) 政府稅收及國家經濟指數</li><li>(C) 國力強弱及世界局勢</li><li>(D) 教育程度及人民素質</li></ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">11.</p>
+  <p class="q-text">操作人於遵守相關規範下從事屬休閒娛樂性質之遙控無人機活動，其活動風險以何種管理方式為主？</p>
+  <ul class="q-opts"><li>(A) 財政管理</li><li>(B) 自我管理</li><li>(C) 衛生管理</li><li>(D) 健康管理</li></ul>
+</div>
+
+<div class="q-item">
+  <p class="q-num">12.</p>
+  <p class="q-text">政府機關（構）、學校或法人經民航局核准得於「人群聚集或室外集會遊行上空」進行飛航活動者，其活動場地部分仍應取得何者之同意？</p>
+  <ul class="q-opts"><li>(A) 主辦單位</li><li>(B) 活動場地之主辦單位或管理人</li><li>(C) 民航局另行核准</li><li>(D) 地方派出所</li></ul>
+</div>
+
+<div class="answer-key">
+  <strong>第二章答案：</strong>
+  <span>1.(A)　2.(B)　3.(A)　4.(C)　5.(C)　6.(A)　7.(A)　8.(A)　9.(D)　10.(A)　11.(B)　12.(B)</span>
+</div>
+</div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 3: 飛行系統與機體結構
+════════════════════════════════════════════ -->
+<div class="page-header"><span>國立臺北科技大學無人機社</span><span>遙控無人機學科課程講義</span></div>
+<div class="page">
+<div class="ch-header">
+  <div class="ch-label">第三章　2 小時</div>
+  <h2>飛行系統與機體結構</h2>
+  <div class="ch-meta">對應題庫：第二章基礎飛行原理（前段）｜考試比重：<span>約 15%</span></div>
+</div>
+
+<h3>一、飛行控制系統（FCS）</h3>
+<p>飛行控制系統是無人機的「神經中樞」，由三大部分組成：</p>
+<table>
+  <thead><tr><th>組件</th><th>功能</th></tr></thead>
+  <tbody>
+    <tr><td><strong>感測器</strong></td><td>飛行控制系統的輸入裝置，用以保持控制精度（陀螺儀、加速度計、氣壓計等）</td></tr>
+    <tr><td><strong>機載計算機</strong></td><td>接收感測器數據，進行運算後輸出控制指令</td></tr>
+    <tr><td><strong>伺服器</strong></td><td>接受計算機指令，實際驅動舵面或馬達</td></tr>
+  </tbody>
+</table>
+<p>完整飛控系統可實現：<strong>姿態穩定和控制、任務管理、緊急控制模式</strong>（以上皆是）。</p>
+
+<h3>二、導航系統</h3>
+<p>遙控無人機導航系統主要分為兩種：</p>
+<div class="concept-grid">
+  <div class="concept-card">
+    <h5>非自主導航（如GPS）</h5>
+    <p>提供位置、速度、飛行姿態資訊<br><strong>缺點：</strong>依賴外部訊號，在遮蔽或干擾環境下精度下降</p>
+  </div>
+  <div class="concept-card orange">
+    <h5>自主導航（慣性導航INS）</h5>
+    <p>不依賴外部訊號，自行計算位置<br><strong>缺點：</strong>誤差會隨時間累積（漂移）</p>
+  </div>
+</div>
+
+<h3>三、通訊與數據鏈路</h3>
+<ul>
+  <li>負責對遙控無人機之命令與控制、資料鏈路等工作的是<strong>通訊系統</strong></li>
+  <li>控制鏈路為保密與抗干擾，基本上已全面採行<strong>數位加密</strong>方式</li>
+  <li>圖傳主要資料傳輸形態：<strong>類比傳輸與數位傳輸兩種方式</strong></li>
+  <li>未來通訊技術發展方向：<strong>高速率、低延遲、長距離</strong></li>
+</ul>
+
+<h3>四、動力系統</h3>
+<p>遙控無人機的動力系統與能量來源：</p>
+<ul>
+  <li>能量來源可包括：<strong>電池、燃油、太陽能、燃料電池</strong>等</li>
+  <li>動力系統發展方向：<strong>高效率、輕量化、長航時</strong></li>
+  <li>機載處理器隨感測器精度和任務複雜度上升，<strong>計算需求</strong>也隨之提高</li>
+</ul>
+
+<h3>五、人為因素在飛行中的重要性</h3>
+<p>遙控無人機許多層面仍須由人員掌握及操控，因此<strong>人為因素</strong>在整體飛行過程中佔了很重要的一部分。操作人的判斷、專注力與心理狀態，直接影響飛行安全。</p>
+
+<h3>六、起降方式</h3>
+<table>
+  <thead><tr><th>類型</th><th>起飛方式</th><th>降落方式</th></tr></thead>
+  <tbody>
+    <tr><td>固定翼無人飛機</td><td>跑道起飛、火箭助推、彈射軌道、人力拋擲</td><td>跑道降落、攔截網、纜線勾鎖、降落傘</td></tr>
+    <tr><td>直昇機／多旋翼</td><td>垂直起飛（不需跑道）</td><td>垂直降落</td></tr>
+  </tbody>
+</table>
+
+<div class="summary-box">
+  <h4>第三章重點整理</h4>
+  <ul>
+    <li>飛控系統三大組件：感測器（輸入）、機載計算機（運算）、伺服器（輸出）</li>
+    <li>感測器是飛控系統的輸入裝置</li>
+    <li>GPS導航缺點：依賴外部訊號易受干擾；慣性導航缺點：誤差隨時間累積</li>
+    <li>控制鏈路採數位加密方式確保保密與抗干擾</li>
+    <li>人為因素在飛行過程中佔重要地位</li>
+  </ul>
+</div>
+
+<div class="quiz-section">
+<h3>第三章 習題演練（12 題）</h3>
+
+<div class="q-item">
+  <p class="q-num">1.</p>
+  <p class="q-text">完整之飛控系統包括下列哪個部分？</p>
+  <ul class="q-opts"><li>(A) 感測器</li><li>(B) 機載計算機</li><li>(C) 伺服器</li><li>(D) 以上皆是</li></ul>
+</div>
+<div class="q-item">
+  <p class="q-num">2.</p>
+  <p class="q-text">下列哪個是飛行控制系統的輸入裝置，用以保持控制精度？</p>
+  <ul class="q-opts"><li>(A) 機載計算機</li><li>(B) 感測器</li><li>(C) 伺服器</li><li>(D) 以上皆是</li></ul>
+</div>
+<div class="q-item">
+  <p class="q-num">3.</p>
+  <p class="q-text">完整之飛控系統可實現遙控無人機下列哪項功能？</p>
+  <ul class="q-opts"><li>(A) 姿態穩定和控制</li><li>(B) 任務管理</li><li>(C) 緊急控制模式</li><li>(D) 以上皆是</li></ul>
+</div>
+<div class="q-item">
+  <p class="q-num">4.</p>
+  <p class="q-text">遙控無人機導航系統主要分為下列哪兩種？</p>
+  <ul class="q-opts"><li>(A) 類比與數位導航</li><li>(B) 非自主（GPS）與自主（慣性）導航</li><li>(C) 有線與無線導航</li><li>(D) 地面與空中導航</li></ul>
+</div>
+<div class="q-item">
+  <p class="q-num">5.</p>
+  <p class="q-text">遙控無人機非自主（如GPS）導航系統有下列哪個缺點？</p>
+  <ul class="q-opts"><li>(A) 誤差隨時間累積</li><li>(B) 依賴外部訊號，受遮蔽或干擾時精度下降</li><li>(C) 體積龐大、重量重</li><li>(D) 無法提供速度資訊</li></ul>
+</div>
+<div class="q-item">
+  <p class="q-num">6.</p>
+  <p class="q-text">遙控無人機控制鏈路為保密與抗干擾基本上已全面採行下列哪種方式？</p>
+  <ul class="q-opts"><li>(A) 類比傳輸</li><li>(B) 人工加密</li><li>(C) 數位加密</li><li>(D) 衛星中繼</li></ul>
+</div>
+<div class="q-item">
+  <p class="q-num">7.</p>
+  <p class="q-text">遙控無人機系統之地面控制站的硬體設備，包括下列哪個項目？</p>
+  <ul class="q-opts"><li>(A) 訊號傳輸設備</li><li>(B) 指令傳輸設備</li><li>(C) 資訊接收分析設備</li><li>(D) 以上皆是</li></ul>
+</div>
+<div class="q-item">
+  <p class="q-num">8.</p>
+  <p class="q-text">遙控無人機許多層面都還是要由人員來掌握及操控，所以下列哪個因素在整體飛行過程中佔了很重要的一部分？</p>
+  <ul class="q-opts"><li>(A) 人為因素</li><li>(B) 運氣因素</li><li>(C) 社會因素</li><li>(D) 歷史因素</li></ul>
+</div>
+<div class="q-item">
+  <p class="q-num">9.</p>
+  <p class="q-text">遙控無人機系統之飛行載具，包括下列哪些項目？</p>
+  <ul class="q-opts"><li>(A) 機體、負載設備及酬載</li><li>(B) 機體、燃料或電池</li><li>(C) 機體、燃料或電池、負載設備及酬載</li><li>(D) 機體、燃料或電池、負載設備及酬載、遙控設備</li></ul>
+</div>
+<div class="q-item">
+  <p class="q-num">10.</p>
+  <p class="q-text">遙控無人飛機起飛時，除跑道起飛外，還可運用下列哪項裝置？</p>
+  <ul class="q-opts"><li>(A) 火箭助推</li><li>(B) 彈射軌道發射</li><li>(C) 人力拋擲</li><li>(D) 以上皆是</li></ul>
+</div>
+<div class="q-item">
+  <p class="q-num">11.</p>
+  <p class="q-text">導航系統提供遙控無人機哪項資訊？</p>
+  <ul class="q-opts"><li>(A) 位置</li><li>(B) 速度</li><li>(C) 飛行姿態</li><li>(D) 以上皆是</li></ul>
+</div>
+<div class="q-item">
+  <p class="q-num">12.</p>
+  <p class="q-text">遙控無人機的圖傳主要資料傳輸形態有下列哪幾種方式？</p>
+  <ul class="q-opts"><li>(A) 只有類比傳輸</li><li>(B) 只有數位傳輸</li><li>(C) 類比傳輸與數位傳輸兩種</li><li>(D) 衛星傳輸</li></ul>
+</div>
+<div class="answer-key">
+  <strong>第三章答案：</strong><span>1.(D)　2.(B)　3.(D)　4.(B)　5.(B)　6.(C)　7.(D)　8.(A)　9.(C)　10.(D)　11.(D)　12.(C)</span>
+</div>
+</div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 4: 空氣動力學基礎
+════════════════════════════════════════════ -->
+<div class="page-header"><span>國立臺北科技大學無人機社</span><span>遙控無人機學科課程講義</span></div>
+<div class="page">
+<div class="ch-header">
+  <div class="ch-label">第四章　2 小時</div>
+  <h2>空氣動力學基礎</h2>
+  <div class="ch-meta">對應題庫：第二章基礎飛行原理（中段）｜考試比重：<span>約 15%</span></div>
+</div>
+
+<h3>一、航空器基本定義</h3>
+<p>航空器係指任何藉空氣之<strong>反作用力</strong>（非僅浮力），得以飛航於大氣中之器物。無人機比空氣重，無法只靠浮力上升，需要相對應的<strong>升力</strong>在空中飛行。</p>
+
+<h3>二、飛行中的四個力</h3>
+<table>
+  <thead><tr><th>力</th><th>方向</th><th>來源</th></tr></thead>
+  <tbody>
+    <tr><td><strong>升力（Lift）</strong></td><td>向上</td><td>機翼或旋翼提供</td></tr>
+    <tr><td><strong>重力（Weight）</strong></td><td>向下</td><td>機體重量產生</td></tr>
+    <tr><td><strong>推力（Thrust）</strong></td><td>向前</td><td>螺旋槳或噴射引擎提供</td></tr>
+    <tr><td><strong>阻力（Drag）</strong></td><td>向後</td><td>空氣對機體運動之阻抗</td></tr>
+  </tbody>
+</table>
+<ul>
+  <li>等速直線飛行：推力＝阻力（縱軸方向平衡）；升力＝重力（垂直軸方向平衡）</li>
+  <li>升力＋推力 ＞ 重力＋阻力 → 無人機<strong>向上加速</strong></li>
+</ul>
+
+<h3>三、柏努利定律與升力產生</h3>
+<p><strong>連續性定理</strong>：流體在流動中，流速和管道截面相關，截面積縮小則流速加快。</p>
+<p><strong>柏努利定律</strong>：流體在管道中流動時，速度越快則壓力越低；速度越慢則壓力越高。</p>
+<p>機翼上表面弧度大，氣流流速快→壓力低；下表面較平，流速慢→壓力高，形成<strong>壓力差</strong>產生升力。升力是垂直於相對氣流方向的壓力差總和。</p>
+
+<h3>四、阻力的分類</h3>
+<table>
+  <thead><tr><th>阻力類型</th><th>說明</th></tr></thead>
+  <tbody>
+    <tr><td>摩擦阻力</td><td>空氣與機體表面摩擦產生，主要物理特性為<strong>空氣黏性</strong></td></tr>
+    <tr><td>形狀阻力（壓差阻力）</td><td>機體形狀造成前後壓差</td></tr>
+    <tr><td>誘導阻力</td><td>產生升力的副產品，升力越大誘導阻力越大</td></tr>
+    <tr><td>干擾阻力</td><td>機翼與機身等接合處氣流干擾</td></tr>
+    <tr><td>波阻</td><td>高速飛行時產生（超音速相關），高速無人機另外產生</td></tr>
+  </tbody>
+</table>
+
+<h3>五、螺旋槳</h3>
+<ul>
+  <li>螺旋槳轉速通常以 <strong>RPM（每分鐘轉數）</strong> 表示</li>
+  <li>一般螺旋槳攻角最大的位置在槳葉的<strong>根部</strong></li>
+  <li>螺旋槳產生推力：藉由旋轉使空氣向後流動，依<strong>牛頓第三定律</strong>（作用力與反作用力）產生向前推力</li>
+  <li>噴射機：將燃燒熱氣體往後推送（作用力），相等且相反的<strong>反作用力</strong>將飛機往前推進</li>
+</ul>
+
+<h3>六、牛頓運動定律在飛行的應用</h3>
+<ul>
+  <li>飛機靜止於地面→<strong>慣性定律</strong>使其保持靜止</li>
+  <li>飛機等速直線飛行→慣性定律使其持續穩定直線飛行</li>
+  <li>頂風飛行：地面速度<strong>降低</strong>（空速不變，但地速＝空速－風速）</li>
+  <li>有風時若未修正，飛機的<strong>飛行路徑（航跡）</strong>會受風力改變</li>
+</ul>
+
+<div class="summary-box">
+  <h4>第四章重點整理</h4>
+  <ul>
+    <li>飛行四力：升力（上）、重力（下）、推力（前）、阻力（後）</li>
+    <li>柏努利：速度快→壓力低；機翼上表面快→壓力低→產生向上升力</li>
+    <li>阻力分類：摩擦、形狀、誘導、干擾阻力，高速另有波阻</li>
+    <li>摩擦阻力主要物理特性：空氣黏性</li>
+    <li>螺旋槳轉速單位：RPM；攻角最大位置：槳葉根部</li>
+  </ul>
+</div>
+
+<div class="quiz-section">
+<h3>第四章 習題演練（10 題）</h3>
+<div class="q-item"><p class="q-num">1.</p><p class="q-text">遙控無人機在空中飛行時，會受到下列哪些力相互作用的影響？</p><ul class="q-opts"><li>(A) 升力與重力</li><li>(B) 推力與阻力</li><li>(C) 升力、重力、推力、阻力</li><li>(D) 只有重力</li></ul></div>
+<div class="q-item"><p class="q-num">2.</p><p class="q-text">柏努利定律中提到，如果流體的速度越快，流體中的壓力就會有下列哪種現象？</p><ul class="q-opts"><li>(A) 壓力增加</li><li>(B) 壓力不變</li><li>(C) 壓力降低</li><li>(D) 無法判斷</li></ul></div>
+<div class="q-item"><p class="q-num">3.</p><p class="q-text">航空器係指任何藉空氣之下列哪種力，得以飛航於大氣中之器物？</p><ul class="q-opts"><li>(A) 浮力</li><li>(B) 摩擦力</li><li>(C) 反作用力</li><li>(D) 重力</li></ul></div>
+<div class="q-item"><p class="q-num">4.</p><p class="q-text">螺旋槳轉速通常以下列哪個項目來表示？</p><ul class="q-opts"><li>(A) km/h</li><li>(B) RPM（每分鐘轉數）</li><li>(C) kN</li><li>(D) dB</li></ul></div>
+<div class="q-item"><p class="q-num">5.</p><p class="q-text">垂直於相對氣流方向的壓力差之總和就是下列哪種外力？</p><ul class="q-opts"><li>(A) 推力</li><li>(B) 阻力</li><li>(C) 升力</li><li>(D) 重力</li></ul></div>
+<div class="q-item"><p class="q-num">6.</p><p class="q-text">空氣產生摩擦力的主要物理特性為何？</p><ul class="q-opts"><li>(A) 密度</li><li>(B) 溫度</li><li>(C) 黏性</li><li>(D) 壓力</li></ul></div>
+<div class="q-item"><p class="q-num">7.</p><p class="q-text">無人飛機阻力由下列哪個項目產生？</p><ul class="q-opts"><li>(A) 螺旋槳</li><li>(B) 機翼</li><li>(C) 機體在空氣中運動</li><li>(D) 發動機</li></ul></div>
+<div class="q-item"><p class="q-num">8.</p><p class="q-text">如果升力與推力大於重力與阻力，遙控無人機的運動方向是下列哪個方向？</p><ul class="q-opts"><li>(A) 向下</li><li>(B) 靜止</li><li>(C) 向上加速</li><li>(D) 向後退</li></ul></div>
+<div class="q-item"><p class="q-num">9.</p><p class="q-text">對於高速遙控無人機而言，除了一般阻力外，還會另外產生下列哪種阻力？</p><ul class="q-opts"><li>(A) 誘導阻力</li><li>(B) 摩擦阻力</li><li>(C) 波阻</li><li>(D) 形狀阻力</li></ul></div>
+<div class="q-item"><p class="q-num">10.</p><p class="q-text">一般螺旋槳攻角最大的位置在槳葉的下列哪個位置？</p><ul class="q-opts"><li>(A) 槳尖</li><li>(B) 槳葉中段</li><li>(C) 根部</li><li>(D) 各處相同</li></ul></div>
+<div class="answer-key"><strong>第四章答案：</strong><span>1.(C)　2.(C)　3.(C)　4.(B)　5.(C)　6.(C)　7.(C)　8.(C)　9.(C)　10.(C)</span></div>
+</div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 5: 無人機類型與操控原理
+════════════════════════════════════════════ -->
+<div class="page-header"><span>國立臺北科技大學無人機社</span><span>遙控無人機學科課程講義</span></div>
+<div class="page">
+<div class="ch-header">
+  <div class="ch-label">第五章　2 小時</div>
+  <h2>無人機類型與操控原理</h2>
+  <div class="ch-meta">對應題庫：第二章基礎飛行原理（操控段）｜考試比重：<span>約 15%</span></div>
+</div>
+
+<h3>一、無人機主要類型比較</h3>
+<table>
+  <thead><tr><th>類型</th><th>特點</th><th>優點</th><th>缺點</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>固定翼無人飛機</strong></td>
+      <td>依機翼產生升力，使用螺旋槳或噴射推力前進</td>
+      <td>飛行速度快、酬載大、效率高、自行保持穩定</td>
+      <td>需要跑道（或助推/彈射）供起降</td>
+    </tr>
+    <tr>
+      <td><strong>無人直昇機</strong></td>
+      <td>透過旋翼槳葉產生升力同時也能產生推力</td>
+      <td>可垂直起降、空中懸停、前後左右移動</td>
+      <td>結構複雜、維修困難</td>
+    </tr>
+    <tr>
+      <td><strong>無人多旋翼機</strong></td>
+      <td>透過三個以上垂直旋翼協調控制姿態</td>
+      <td>操控簡單直接，懸停能力優秀，不需跑道</td>
+      <td>續航時間相對較短</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>二、無人直昇機操控原理</h3>
+<p>主旋翼產生升力的原理類似<strong>固定翼機翼</strong>的升力原理（柏努利定律）。旋轉面保持水平時，產生<strong>垂直向上</strong>的力。</p>
+<p><strong>尾旋翼</strong>主要功能：抵消主旋翼旋轉產生的反扭力，防止機身跟著旋轉，並用於偏航控制。</p>
+
+<h4>無人直昇機基本飛行動作：</h4>
+<table>
+  <thead><tr><th>動作</th><th>說明</th></tr></thead>
+  <tbody>
+    <tr><td>垂直起飛到懸停</td><td>垂直飛離地面約2~3呎，保持固定高度與位置懸停</td></tr>
+    <tr><td>懸停轉彎</td><td>在懸停高度執行機鼻向左或向右轉，保持高度和位置不變</td></tr>
+    <tr><td>向前懸停飛行</td><td>移動到另一特定位置，保持高度和機鼻方向不變</td></tr>
+    <tr><td>側向懸停飛行</td><td>無法執行向前飛行時使用，側向移動至目標位置</td></tr>
+    <tr><td>向後懸停飛行</td><td>無法向前或側向時使用，向後移動至目標位置</td></tr>
+    <tr><td>平直飛行</td><td>保持固定速度、高度、方向之直線飛行</td></tr>
+    <tr><td>傾斜轉彎</td><td>保持向左或向右傾斜狀態，維持固定高度轉彎</td></tr>
+    <tr><td>偏航</td><td>利用尾旋翼推力執行機鼻左右轉向操縱</td></tr>
+  </tbody>
+</table>
+
+<h3>三、無人多旋翼機操控原理</h3>
+<p>多旋翼機採<strong>定距槳</strong>設計（固定螺距），相較直昇機在安全性上有很大提升。透過<strong>同時增加或減少每個旋翼的升力</strong>，來實現上升、下降等飛行狀態。</p>
+<ul>
+  <li>多旋翼機具備優秀的<strong>懸停能力</strong>，是固定翼望塵莫及的</li>
+  <li>定距槳設計使操控<strong>簡單且直接</strong></li>
+  <li>可依<strong>旋翼數量</strong>（四旋翼、六旋翼、八旋翼等）來做區分</li>
+</ul>
+
+<h3>四、固定翼基本操控（四大動作）</h3>
+<p>操作遙控無人飛機有<strong>四大基本動作</strong>：俯仰（縱向）、滾轉（橫向）、偏航（方向）、油門（速度）。</p>
+<table>
+  <thead><tr><th>操作動作</th><th>機體反應</th></tr></thead>
+  <tbody>
+    <tr><td>副翼：右上左下</td><td>機體向右滾轉</td></tr>
+    <tr><td>副翼：右下左上</td><td>機體向左滾轉</td></tr>
+    <tr><td>方向舵：往右</td><td>機鼻向右偏航</td></tr>
+    <tr><td>方向舵：往左</td><td>機鼻向左偏航</td></tr>
+  </tbody>
+</table>
+<div class="warn-box">
+  <h4>⚠ 操控視角重要觀念</h4>
+  <p>控制遙控無人機時，操作人應以相對於<strong>無人機本身</strong>（機體視角）來思考「上」、「下」、「左」、「右」，而非相對於操作人自身位置。當無人機飛向操作人時，操作人所見的左右方向與機體實際左右方向相反。</p>
+</div>
+
+<div class="summary-box">
+  <h4>第五章重點整理</h4>
+  <ul>
+    <li>固定翼優點：速度快、效率高；缺點：需跑道</li>
+    <li>多旋翼優點：懸停佳、操控簡單；使用定距槳設計</li>
+    <li>尾旋翼功能：抵消反扭力、執行偏航控制</li>
+    <li>多旋翼：同時增減各旋翼升力來控制姿態</li>
+    <li>操控視角：以無人機本身為基準思考方向</li>
+  </ul>
+</div>
+
+<div class="quiz-section">
+<h3>第五章 習題演練（10 題）</h3>
+<div class="q-item"><p class="q-num">1.</p><p class="q-text">飛行速度快、酬載大、飛行效率高，不需太複雜控制就可自行保持穩定飛行的遙控無人機，是下列哪種？</p><ul class="q-opts"><li>(A) 無人多旋翼機</li><li>(B) 無人直昇機</li><li>(C) 固定翼無人飛機</li><li>(D) 混合翼無人機</li></ul></div>
+<div class="q-item"><p class="q-num">2.</p><p class="q-text">無人直昇機的尾旋翼主要功能為何？</p><ul class="q-opts"><li>(A) 提供額外升力</li><li>(B) 抵消主旋翼反扭力並執行偏航控制</li><li>(C) 提高飛行速度</li><li>(D) 減少油耗</li></ul></div>
+<div class="q-item"><p class="q-num">3.</p><p class="q-text">無人多旋翼機同時增加或減少每個旋翼的升力，來實現下列哪種飛行狀態？</p><ul class="q-opts"><li>(A) 轉彎</li><li>(B) 偏航</li><li>(C) 上升或下降</li><li>(D) 側飛</li></ul></div>
+<div class="q-item"><p class="q-num">4.</p><p class="q-text">無人多旋翼機具備優秀的下列哪種能力是一般無人飛機望塵莫及的？</p><ul class="q-opts"><li>(A) 高速飛行能力</li><li>(B) 懸停能力</li><li>(C) 長航時能力</li><li>(D) 高海拔飛行能力</li></ul></div>
+<div class="q-item"><p class="q-num">5.</p><p class="q-text">控制遙控無人機時，操作人應以相對於下列哪個項目來思考「上」、「下」、「左」、「右」？</p><ul class="q-opts"><li>(A) 操作人自身位置</li><li>(B) 地面標記</li><li>(C) 無人機本身（機體視角）</li><li>(D) GPS座標</li></ul></div>
+<div class="q-item"><p class="q-num">6.</p><p class="q-text">無人直昇機「懸停轉彎」，係指保持不變的下列哪種狀態？</p><ul class="q-opts"><li>(A) 高度和機鼻方向</li><li>(B) 高度和位置</li><li>(C) 速度和高度</li><li>(D) 位置和機鼻方向</li></ul></div>
+<div class="q-item"><p class="q-num">7.</p><p class="q-text">透過三個以上垂直旋翼間協調來控制姿態，不需跑道，可垂直起降、空中懸停等的遙控無人機，是下列哪種？</p><ul class="q-opts"><li>(A) 固定翼無人飛機</li><li>(B) 無人直昇機</li><li>(C) 無人多旋翼機</li><li>(D) 飛船</li></ul></div>
+<div class="q-item"><p class="q-num">8.</p><p class="q-text">操作遙控無人飛機時，當副翼控制右上左下，機體作下列哪種動作？</p><ul class="q-opts"><li>(A) 向左滾轉</li><li>(B) 向右滾轉</li><li>(C) 機鼻上仰</li><li>(D) 機鼻下俯</li></ul></div>
+<div class="q-item"><p class="q-num">9.</p><p class="q-text">遙控無人飛機缺點是需要有下列哪個項目供起降之用？</p><ul class="q-opts"><li>(A) 特殊燃料</li><li>(B) 跑道</li><li>(C) GPS訊號</li><li>(D) 地面站</li></ul></div>
+<div class="q-item"><p class="q-num">10.</p><p class="q-text">無人多旋翼機可以下列哪種方式來做區分？</p><ul class="q-opts"><li>(A) 電池容量</li><li>(B) 旋翼數量</li><li>(C) 機體顏色</li><li>(D) 遙控距離</li></ul></div>
+<div class="answer-key"><strong>第五章答案：</strong><span>1.(C)　2.(B)　3.(C)　4.(B)　5.(C)　6.(B)　7.(C)　8.(B)　9.(B)　10.(B)</span></div>
+</div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 6: 重量平衡與飛行性能
+════════════════════════════════════════════ -->
+<div class="page-header"><span>國立臺北科技大學無人機社</span><span>遙控無人機學科課程講義</span></div>
+<div class="page">
+<div class="ch-header">
+  <div class="ch-label">第六章　2 小時</div>
+  <h2>重量平衡與飛行性能</h2>
+  <div class="ch-meta">對應題庫：第二章基礎飛行原理（重量平衡段）｜考試比重：<span>約 10%</span></div>
+</div>
+
+<h3>一、重心（CG）的概念</h3>
+<p>遙控無人機<strong>重力的著力點</strong>稱為<strong>重心（Center of Gravity, CG）</strong>。重心位置與穩定性有很大的關聯。當重心位置超出允許範圍時，可能導致遙控無人機發生<strong>難以控制甚至失控</strong>的情形。</p>
+
+<h3>二、重心位置的影響</h3>
+<table>
+  <thead><tr><th>重心狀況</th><th>對飛行的影響</th></tr></thead>
+  <tbody>
+    <tr><td><strong>重心偏前</strong></td><td>機頭較沉重；需尾翼提供向下的力維持平衡；起飛離地困難需較高速度；穩定性佳但操控較遲鈍；提高失速風險</td></tr>
+    <tr><td><strong>重心偏後</strong></td><td>機頭較輕；起飛時可能仰角過大；爬升時可能因仰角過大造成失速；配平阻力減小但穩定性降低</td></tr>
+    <tr><td><strong>多旋翼重心移動</strong></td><td>可能造成各旋翼負載不均，影響飛行穩定性</td></tr>
+  </tbody>
+</table>
+
+<h3>三、重量增加對飛行性能的影響</h3>
+<p>重量增加會對下列性能造成<strong>負面</strong>影響：</p>
+<ul>
+  <li>起飛速度：<strong>增加</strong>（需更高速度才能起飛）</li>
+  <li>滑行距離：<strong>增加</strong></li>
+  <li>爬升率及爬升角：<strong>降低</strong></li>
+  <li>飛航最高高度：<strong>降低</strong></li>
+  <li>操作性能：<strong>降低</strong>（機動性下降）</li>
+  <li>進場及降落速度：<strong>增加</strong></li>
+  <li>降落滾行距離：<strong>增加</strong></li>
+</ul>
+
+<h3>四、轉彎飛行性能</h3>
+<ul>
+  <li>轉彎時需<strong>增加總升力</strong>（拉桿）以補償升力的不足</li>
+  <li>轉彎率因速度不同而異，為保持負載係數不變，需抵銷所增加的<strong>向心力</strong></li>
+</ul>
+
+<h3>五、飛行前的性能確認</h3>
+<p>同時影響遙控無人機飛行性能與飛航安全的重要因素為<strong>重量與平衡</strong>。操作人在飛行前應確認遙控無人機的<strong>性能</strong>在合理範圍內，並詳細考量在<strong>高溫、高海拔、潮濕</strong>等不利情況下可能降低飛行性能的載重因素。</p>
+
+<div class="warn-box">
+  <h4>⚠ 重要觀念：重心超限的危險</h4>
+  <p>無論是固定翼、直昇機或多旋翼，重心超出允許範圍都是危險的。務必在飛行前確認重心位置，並確保酬載（攝影機、噴藥設備等）的安裝位置不影響重心平衡。</p>
+</div>
+
+<div class="summary-box">
+  <h4>第六章重點整理</h4>
+  <ul>
+    <li>重心（CG）：重力的著力點，與飛行穩定性高度相關</li>
+    <li>重心偏前：穩定但起飛困難、操控遲鈍、有失速風險</li>
+    <li>重心偏後：機動但穩定性差、有失速危險</li>
+    <li>重量增加：幾乎所有性能指標都變差（速度需求增，效率降）</li>
+    <li>轉彎時需增加升力補償，才能維持高度</li>
+  </ul>
+</div>
+
+<div class="quiz-section">
+<h3>第六章 習題演練（10 題）</h3>
+<div class="q-item"><p class="q-num">1.</p><p class="q-text">遙控無人機重力的著力點稱為下列哪個項目？</p><ul class="q-opts"><li>(A) 壓力中心</li><li>(B) 重心</li><li>(C) 升力中心</li><li>(D) 浮力中心</li></ul></div>
+<div class="q-item"><p class="q-num">2.</p><p class="q-text">當遙控無人機重心位置超出允許範圍時，可能導致遙控無人機發生下列哪種情形？</p><ul class="q-opts"><li>(A) 燃料耗盡</li><li>(B) 訊號中斷</li><li>(C) 難以控制甚至失控</li><li>(D) 電池爆炸</li></ul></div>
+<div class="q-item"><p class="q-num">3.</p><p class="q-text">無人飛機重心位置靠前時，為維持俯仰平衡，需要尾翼提供下列哪種力？</p><ul class="q-opts"><li>(A) 向上的力</li><li>(B) 向下的力</li><li>(C) 向前的力</li><li>(D) 向後的力</li></ul></div>
+<div class="q-item"><p class="q-num">4.</p><p class="q-text">遙控無人機重量增加可能對爬升率及爬升角造成下列哪種結果？</p><ul class="q-opts"><li>(A) 增加</li><li>(B) 不變</li><li>(C) 降低</li><li>(D) 無法預測</li></ul></div>
+<div class="q-item"><p class="q-num">5.</p><p class="q-text">遙控無人機重量增加可能對起飛速度造成下列哪種結果？</p><ul class="q-opts"><li>(A) 降低</li><li>(B) 不變</li><li>(C) 增加</li><li>(D) 無影響</li></ul></div>
+<div class="q-item"><p class="q-num">6.</p><p class="q-text">遙控無人機的下列哪個項目與穩定性有很大的關聯？</p><ul class="q-opts"><li>(A) 機體顏色</li><li>(B) 重心位置</li><li>(C) 電池品牌</li><li>(D) 遙控距離</li></ul></div>
+<div class="q-item"><p class="q-num">7.</p><p class="q-text">遙控無人機轉彎時，需執行下列哪個動作以補償升力的不足？</p><ul class="q-opts"><li>(A) 減少油門</li><li>(B) 增加總升力（拉桿）</li><li>(C) 降低飛行高度</li><li>(D) 加速前飛</li></ul></div>
+<div class="q-item"><p class="q-num">8.</p><p class="q-text">無人飛機重心後移時，起飛爬升時可能會因仰角過大，而造成下列哪種情形？</p><ul class="q-opts"><li>(A) 飛行更穩定</li><li>(B) 失速</li><li>(C) 速度增加</li><li>(D) 自動返航</li></ul></div>
+<div class="q-item"><p class="q-num">9.</p><p class="q-text">遙控無人機重量增加可能對降落滾行距離造成下列哪種結果？</p><ul class="q-opts"><li>(A) 縮短</li><li>(B) 不變</li><li>(C) 增加</li><li>(D) 無影響</li></ul></div>
+<div class="q-item"><p class="q-num">10.</p><p class="q-text">操作人在飛行前應詳細考量在下列哪種情況下可能降低飛行性能的載重因素？</p><ul class="q-opts"><li>(A) 低溫、低海拔、乾燥</li><li>(B) 高溫、高海拔、潮濕</li><li>(C) 陰天、微風</li><li>(D) 晴天、無風</li></ul></div>
+<div class="answer-key"><strong>第六章答案：</strong><span>1.(B)　2.(C)　3.(B)　4.(C)　5.(C)　6.(B)　7.(B)　8.(B)　9.(C)　10.(B)</span></div>
+</div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 7: 氣象知識
+════════════════════════════════════════════ -->
+<div class="page-header"><span>國立臺北科技大學無人機社</span><span>遙控無人機學科課程講義</span></div>
+<div class="page">
+<div class="ch-header">
+  <div class="ch-label">第七章　2 小時</div>
+  <h2>氣象知識與飛行環境</h2>
+  <div class="ch-meta">對應題庫：第三章氣象（全章）｜考試比重：<span>約 20%</span></div>
+</div>
+
+<h3>一、空氣密度與飛行性能</h3>
+<p>空氣密度對無人機飛行性能影響極大。<strong>密度高度</strong>是衡量空氣密度的指標，密度高度越高，代表空氣越稀薄，飛行性能越差。</p>
+<table>
+  <thead><tr><th>影響密度的因素</th><th>高空氣密度</th><th>低空氣密度</th></tr></thead>
+  <tbody>
+    <tr><td>海拔高度</td><td>低海拔（空氣分子多且濃厚）</td><td>高海拔（空氣分子少且稀薄）</td></tr>
+    <tr><td>溫度</td><td>低溫（分子收縮，密度高）</td><td>高溫（分子膨脹，密度低）</td></tr>
+    <tr><td>濕度</td><td>乾燥（水蒸氣少）</td><td>潮濕（水蒸氣多，密度低）</td></tr>
+    <tr><td>大氣壓力</td><td>大氣壓力高</td><td>大氣壓力低</td></tr>
+  </tbody>
+</table>
+<ul>
+  <li>空氣密度<strong>增加</strong>→升力<strong>增加</strong></li>
+  <li>高密度高度（稀薄空氣）不容易出現在：<strong>低海拔處</strong></li>
+  <li>低密度高度（濃厚空氣）不容易出現在：<strong>大氣壓力極高之處</strong>（實際上是高壓處密度高）</li>
+</ul>
+<div class="info-box">
+  <h4>重要：密度高度不等於地理海拔</h4>
+  <p>密度高度是綜合高度、溫度、濕度、氣壓計算出的等效高度。同樣的地理高度，在高溫潮濕低氣壓環境下，密度高度更高（空氣更稀薄），飛行性能更差。</p>
+</div>
+
+<h3>二、風的影響</h3>
+<ul>
+  <li>風速過大時，無人機飛行穩定性降低，電池消耗加快</li>
+  <li>建議在風速 <strong>5 級（約 8-10 m/s）</strong>以下飛行</li>
+  <li>頂風飛行：<strong>地面速度降低</strong>（空速不變）</li>
+  <li>順風飛行：地面速度增加，但逆風降落距離縮短（建議逆風起降）</li>
+  <li>側風：會使無人機偏離預定航跡，需修正偏流角</li>
+</ul>
+
+<h3>三、雲的種類與飛行風險</h3>
+<table>
+  <thead><tr><th>雲的類型</th><th>飛行風險</th></tr></thead>
+  <tbody>
+    <tr><td>積雨雲（CB）</td><td>最危險！含強烈亂流、閃電、冰雹，應立即遠離</td></tr>
+    <tr><td>積雲（Cu）</td><td>含上升氣流和亂流，可能影響穩定</td></tr>
+    <tr><td>層雲（St）</td><td>能見度低，影響目視飛行</td></tr>
+    <tr><td>霧（Fog）</td><td>能見度極低，禁止飛行</td></tr>
+  </tbody>
+</table>
+
+<h3>四、溫度與大氣相關知識</h3>
+<ul>
+  <li>大氣層由下而上依序：對流層→平流層→中氣層→增溫層→外氣層</li>
+  <li>對流層：天氣現象發生的主要層，無人機活動範圍</li>
+  <li>標準大氣：海平面溫度 15°C，氣壓 1013.25 hPa，高度每上升 1,000 英尺溫度降低約 2°C</li>
+  <li>逆溫層：溫度隨高度上升而升高（異常），可能將汙染物和霧困在低層</li>
+</ul>
+
+<h3>五、降水與能見度</h3>
+<ul>
+  <li>降雨、降雪、冰雹均會對無人機電子元件造成損害</li>
+  <li>飛行時必須保持<strong>目視飛行（VLOS）</strong>，能見度不足時禁止飛行</li>
+  <li>結冰（Icing）：在低溫高濕環境下，螺旋槳或機翼可能積冰，影響升力並增加重量</li>
+</ul>
+
+<div class="summary-box">
+  <h4>第七章重點整理</h4>
+  <ul>
+    <li>空氣密度影響升力：密度增加→升力增加</li>
+    <li>高密度高度（稀薄空氣）：高海拔、高溫、潮濕、低氣壓環境</li>
+    <li>積雨雲（CB）是飛行最危險的天氣現象</li>
+    <li>建議在風速5級（約8-10 m/s）以下飛行</li>
+    <li>頂風飛行：地面速度降低，空速不變</li>
+  </ul>
+</div>
+
+<div class="quiz-section">
+<h3>第七章 習題演練（12 題）</h3>
+<div class="q-item"><p class="q-num">1.</p><p class="q-text">當空氣密度增加時，對飛機升力的影響為何者？</p><ul class="q-opts"><li>(A) 升力增加</li><li>(B) 升力降低</li><li>(C) 升力不變</li><li>(D) 升力有時增加有時降低</li></ul></div>
+<div class="q-item"><p class="q-num">2.</p><p class="q-text">下列何者非影響空氣密度之因素？</p><ul class="q-opts"><li>(A) 高度</li><li>(B) 溫度</li><li>(C) 濕度</li><li>(D) 應力</li></ul></div>
+<div class="q-item"><p class="q-num">3.</p><p class="q-text">當空氣中分子較少且稀薄，表示其密度高度為何？</p><ul class="q-opts"><li>(A) 越高</li><li>(B) 越低</li><li>(C) 可能高也可能低</li><li>(D) 無法判斷</li></ul></div>
+<div class="q-item"><p class="q-num">4.</p><p class="q-text">當空氣中分子較多且濃厚，表示其密度高度為何？</p><ul class="q-opts"><li>(A) 越高</li><li>(B) 越低</li><li>(C) 可能高也可能低</li><li>(D) 無法判斷</li></ul></div>
+<div class="q-item"><p class="q-num">5.</p><p class="q-text">高密度高度之環境比較不會出現於下列何處？</p><ul class="q-opts"><li>(A) 低海拔處</li><li>(B) 高溫處</li><li>(C) 非常潮濕之處</li><li>(D) 低大氣壓力之處</li></ul></div>
+<div class="q-item"><p class="q-num">6.</p><p class="q-text">低密度高度之環境比較不會出現於下列何處？</p><ul class="q-opts"><li>(A) 大氣壓力極高之處</li><li>(B) 低海拔處</li><li>(C) 乾燥處</li><li>(D) 以上皆是（大氣壓高、低海拔、乾燥均為高密度環境）</li></ul></div>
+<div class="q-item"><p class="q-num">7.</p><p class="q-text">遙控無人機在頂風飛行時，地面速度就會有下列哪種變化？</p><ul class="q-opts"><li>(A) 增加</li><li>(B) 降低</li><li>(C) 不變</li><li>(D) 無法預測</li></ul></div>
+<div class="q-item"><p class="q-num">8.</p><p class="q-text">飛行時能見度不足時，操作人應如何處置？</p><ul class="q-opts"><li>(A) 改用FPV視角繼續飛行</li><li>(B) 禁止飛行</li><li>(C) 降低飛行高度繼續</li><li>(D) 加快速度穿越</li></ul></div>
+<div class="q-item"><p class="q-num">9.</p><p class="q-text">下列哪種天氣現象對飛行最危險，應立即遠離？</p><ul class="q-opts"><li>(A) 薄雲</li><li>(B) 微風</li><li>(C) 積雨雲（CB）</li><li>(D) 晴天</li></ul></div>
+<div class="q-item"><p class="q-num">10.</p><p class="q-text">影響空氣密度的因素中，潮濕環境對空氣密度的影響為何？</p><ul class="q-opts"><li>(A) 使空氣密度增加</li><li>(B) 使空氣密度降低</li><li>(C) 無影響</li><li>(D) 視溫度而定</li></ul></div>
+<div class="q-item"><p class="q-num">11.</p><p class="q-text">標準大氣中，高度每上升1,000英尺，溫度大約降低多少？</p><ul class="q-opts"><li>(A) 1°C</li><li>(B) 2°C</li><li>(C) 3°C</li><li>(D) 5°C</li></ul></div>
+<div class="q-item"><p class="q-num">12.</p><p class="q-text">遙控無人機在高溫、高海拔、潮濕環境下飛行，飛行性能會有何影響？</p><ul class="q-opts"><li>(A) 升力增加，性能提升</li><li>(B) 空氣密度降低，升力減少，性能下降</li><li>(C) 無影響</li><li>(D) 速度增加</li></ul></div>
+<div class="answer-key"><strong>第七章答案：</strong><span>1.(A)　2.(D)　3.(A)　4.(B)　5.(A)　6.(D)　7.(B)　8.(B)　9.(C)　10.(B)　11.(B)　12.(B)</span></div>
+</div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 8: 緊急處置與人為因素
+════════════════════════════════════════════ -->
+<div class="page-header"><span>國立臺北科技大學無人機社</span><span>遙控無人機學科課程講義</span></div>
+<div class="page">
+<div class="ch-header">
+  <div class="ch-label">第八章　2 小時</div>
+  <h2>緊急處置與人為因素</h2>
+  <div class="ch-meta">對應題庫：第四章緊急處置與飛行決策（前段）｜考試比重：<span>約 15%</span></div>
+</div>
+
+<h3>一、影響操作安全的人為因素</h3>
+<p>遙控無人機操作人在執行任務前及過程中，需確保不受下列狀況影響：</p>
+
+<table>
+  <thead><tr><th>影響因素</th><th>說明</th></tr></thead>
+  <tbody>
+    <tr><td><strong>酒精及藥物</strong></td><td>嚴禁在酒精或非處方藥物影響下操作；一般成藥如抗組織胺或解除充血劑也可能影響操作安全</td></tr>
+    <tr><td><strong>疲勞</strong></td><td>判斷力下降、反應遲鈍，是常被忽略的危險因素</td></tr>
+    <tr><td><strong>壓力</strong></td><td>心理壓力影響專注力與決策</td></tr>
+    <tr><td><strong>過度換氣</strong></td><td>症狀：視界窄化、意識不清、輕快或暈眩感、肢體末梢刺痛感、對冷熱敏感、肌肉痙攣；改善方法：使血液二氧化碳濃度恢復正常（緩慢深呼吸）；若無法控制，可能進入<strong>意識不清</strong>狀態</td></tr>
+    <tr><td><strong>脫水與熱中暑</strong></td><td>戶外飛行時需特別注意補充水分</td></tr>
+  </tbody>
+</table>
+
+<h3>二、常見緊急狀況應變</h3>
+<table>
+  <thead><tr><th>緊急狀況</th><th>可能原因</th><th>應變措施</th></tr></thead>
+  <tbody>
+    <tr><td>訊號中斷</td><td>電磁干擾、超出遙控範圍</td><td>確認RTH已設定，保持冷靜等待自動返航</td></tr>
+    <tr><td>電池電量驟降</td><td>電池老化、低溫</td><td>立即操控返航或緊急降落於安全空曠地點</td></tr>
+    <tr><td>馬達異音或失速</td><td>螺旋槳碰撞、馬達損壞</td><td>立即嘗試安全降落</td></tr>
+    <tr><td>GPS訊號喪失</td><td>高樓遮蔽、電磁干擾</td><td>切換姿態模式（ATTI），手動控制緩慢降落</td></tr>
+    <tr><td>機體劇烈搖晃</td><td>強陣風、重心偏移</td><td>降低高度，順風方向返航</td></tr>
+  </tbody>
+</table>
+
+<h3>三、飛行前的安全確認清單</h3>
+<ul>
+  <li><strong>電池</strong>：電量充足（80%以上），外觀無膨脹變形</li>
+  <li><strong>螺旋槳</strong>：無裂痕、缺口、彎曲，安裝鎖緊</li>
+  <li><strong>機體結構</strong>：螺絲無鬆脫，腳架正常</li>
+  <li><strong>鏡頭/雲台</strong>：保護蓋已取下，校正正常</li>
+  <li><strong>遙控器</strong>：電量充足，已成功配對</li>
+  <li><strong>GPS</strong>：衛星訊號足夠（建議8顆以上），指南針校正完成</li>
+  <li><strong>RTH設定</strong>：返航高度高於周邊障礙物</li>
+</ul>
+
+<h3>四、墜機後的處理程序</h3>
+<ol>
+  <li>確認現場安全，有人員受傷立即撥打 <strong>119</strong></li>
+  <li>保護現場，避免破壞事故現場</li>
+  <li>若有財物損失，留存對方聯絡資訊</li>
+  <li>重大飛安事故依法通報民航局</li>
+  <li>蒐集飛行紀錄以備後續處理</li>
+</ol>
+
+<div class="summary-box">
+  <h4>第八章重點整理</h4>
+  <ul>
+    <li>影響操作安全的主因：酒精藥物、疲勞、壓力、過度換氣、脫水熱中暑</li>
+    <li>一般成藥（抗組織胺等）也可能影響操作安全</li>
+    <li>過度換氣改善：使血液二氧化碳濃度恢復正常</li>
+    <li>過度換氣嚴重時可能進入意識不清狀態</li>
+    <li>訊號中斷：保持冷靜，等待RTH自動返航</li>
+  </ul>
+</div>
+
+<div class="quiz-section">
+<h3>第八章 習題演練（12 題）</h3>
+<div class="q-item"><p class="q-num">1.</p><p class="q-text">遙控無人機操作人在執行任務前及過程中，需確保參與執行的成員不受下列哪種狀況的影響？</p><ul class="q-opts"><li>(A) 娛樂圈八卦和謠言</li><li>(B) 國內股市行情</li><li>(C) 酒精及藥物</li><li>(D) 世界經濟發展情勢</li></ul></div>
+<div class="q-item"><p class="q-num">2.</p><p class="q-text">遙控無人機操作人在執行任務前及過程中，下列哪種狀況也可能影響操作安全？</p><ul class="q-opts"><li>(A) 娛樂圈八卦</li><li>(B) 一般的成藥如抗組織胺或解除充血劑</li><li>(C) 國內股市行情</li><li>(D) 世界經濟發展情勢</li></ul></div>
+<div class="q-item"><p class="q-num">3.</p><p class="q-text">有關可能影響操作人安全操作遙控無人機的因素，主要有哪種狀況？</p><ul class="q-opts"><li>(A) 過度換氣、壓力、疲勞</li><li>(B) 脫水、熱中暑</li><li>(C) 酒精與藥物</li><li>(D) 以上皆是</li></ul></div>
+<div class="q-item"><p class="q-num">4.</p><p class="q-text">過度換氣若無法善加控制，可能讓遙控無人機操作人進入下列哪個狀態？</p><ul class="q-opts"><li>(A) 神經緊張</li><li>(B) 意識不清</li><li>(C) 心情鬱悶</li><li>(D) 懷疑心重</li></ul></div>
+<div class="q-item"><p class="q-num">5.</p><p class="q-text">過度換氣的常見症狀有下列哪種狀況？</p><ul class="q-opts"><li>(A) 視界窄化、意識不清</li><li>(B) 輕快或暈眩感、肢體末梢有刺痛感</li><li>(C) 對冷熱敏感、肌肉痙攣感</li><li>(D) 以上皆是</li></ul></div>
+<div class="q-item"><p class="q-num">6.</p><p class="q-text">過度換氣的改善方法是下列哪種方式？</p><ul class="q-opts"><li>(A) 多閱讀、多聽音樂</li><li>(B) 適當的飲食</li><li>(C) 使血液裡的二氧化碳濃度恢復到正常狀態</li><li>(D) 立即服用藥物</li></ul></div>
+<div class="q-item"><p class="q-num">7.</p><p class="q-text">飛行中GPS訊號喪失時，應如何應變？</p><ul class="q-opts"><li>(A) 立即降落在原地</li><li>(B) 切換姿態模式（ATTI），手動控制緩慢降落</li><li>(C) 加速飛離現場</li><li>(D) 等待訊號恢復不做任何操作</li></ul></div>
+<div class="q-item"><p class="q-num">8.</p><p class="q-text">飛行中電量降至多少時應立即返航？</p><ul class="q-opts"><li>(A) 50%</li><li>(B) 40%</li><li>(C) 30%</li><li>(D) 20%</li></ul></div>
+<div class="q-item"><p class="q-num">9.</p><p class="q-text">飛行前，GPS衛星訊號建議至少需要幾顆才適合起飛？</p><ul class="q-opts"><li>(A) 4顆</li><li>(B) 6顆</li><li>(C) 8顆</li><li>(D) 12顆</li></ul></div>
+<div class="q-item"><p class="q-num">10.</p><p class="q-text">墜機造成人員受傷，第一步應做什麼？</p><ul class="q-opts"><li>(A) 立即撤離現場</li><li>(B) 搶救無人機</li><li>(C) 立即撥打119並確認現場安全</li><li>(D) 先拍照記錄</li></ul></div>
+<div class="q-item"><p class="q-num">11.</p><p class="q-text">膨脹變形的電池是否可以繼續使用？</p><ul class="q-opts"><li>(A) 可以，只是飛行時間縮短</li><li>(B) 不可以，有起火爆炸危險</li><li>(C) 充飽電後可使用</li><li>(D) 視膨脹程度而定</li></ul></div>
+<div class="q-item"><p class="q-num">12.</p><p class="q-text">訊號中斷時，若事先已正確設定RTH，操作人應如何應對？</p><ul class="q-opts"><li>(A) 立即放棄無人機</li><li>(B) 跑向無人機方向</li><li>(C) 保持冷靜，等待自動返航</li><li>(D) 立即聯絡民航局</li></ul></div>
+<div class="answer-key"><strong>第八章答案：</strong><span>1.(C)　2.(B)　3.(D)　4.(B)　5.(D)　6.(C)　7.(B)　8.(D)　9.(C)　10.(C)　11.(B)　12.(C)</span></div>
+</div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 9: 飛行決策與綜合模擬測驗
+════════════════════════════════════════════ -->
+<div class="page-header"><span>國立臺北科技大學無人機社</span><span>遙控無人機學科課程講義</span></div>
+<div class="page">
+<div class="ch-header">
+  <div class="ch-label">第九章　2 小時</div>
+  <h2>飛行決策與綜合模擬測驗</h2>
+  <div class="ch-meta">對應題庫：第四章飛行決策（後段）＋跨章節整合｜考試比重：<span>全範圍</span></div>
+</div>
+
+<h3>一、飛行決策（Aeronautical Decision Making, ADM）</h3>
+<p>良好的飛行決策是安全飛行的核心能力，包含以下幾個要素：</p>
+<ul>
+  <li><strong>情境意識（Situational Awareness）</strong>：隨時掌握無人機狀態、周遭環境、電量、天氣等資訊</li>
+  <li><strong>風險評估</strong>：在飛行前和飛行中持續評估潛在風險</li>
+  <li><strong>決策執行</strong>：面對異常狀況時，冷靜判斷並採取正確行動</li>
+  <li><strong>後果預想</strong>：在行動前預想各種可能結果，選擇最安全方案</li>
+</ul>
+
+<h3>二、IMSAFE 自我評估清單</h3>
+<p>飛行前操作人應對自身狀態進行評估：</p>
+<table>
+  <thead><tr><th>字母</th><th>代表意義</th><th>評估問題</th></tr></thead>
+  <tbody>
+    <tr><td><strong>I</strong></td><td>Illness（疾病）</td><td>我是否患病或感到不適？</td></tr>
+    <tr><td><strong>M</strong></td><td>Medication（藥物）</td><td>我是否服用任何可能影響判斷的藥物？</td></tr>
+    <tr><td><strong>S</strong></td><td>Stress（壓力）</td><td>我的心理壓力是否過大？</td></tr>
+    <tr><td><strong>A</strong></td><td>Alcohol（酒精）</td><td>我是否飲酒？（飲酒後8小時以上才可飛行）</td></tr>
+    <tr><td><strong>F</strong></td><td>Fatigue（疲勞）</td><td>我是否過度疲勞？</td></tr>
+    <tr><td><strong>E</strong></td><td>Emotion（情緒）</td><td>我的情緒是否穩定，可以專注飛行？</td></tr>
+  </tbody>
+</table>
+
+<h3>三、飛行前完整評估流程</h3>
+<ol>
+  <li><strong>法規確認</strong>：查詢Drone Map，確認飛行地點合法，無禁限航限制</li>
+  <li><strong>天氣確認</strong>：查詢飛行當天天氣，確認風速、能見度、降雨機率</li>
+  <li><strong>機體檢查</strong>：完成飛行前檢查清單（電池、槳葉、結構、遙控器、GPS）</li>
+  <li><strong>自我評估</strong>：進行IMSAFE自我評估</li>
+  <li><strong>場地評估</strong>：確認起降點安全，識別障礙物，規劃緊急降落點</li>
+</ol>
+
+<h3>四、安全飛行守則總整理</h3>
+<div class="info-box">
+  <h4>飛行前查　｜　飛行中看　｜　飛行後記</h4>
+  <p><strong>飛行前查</strong>：查Drone Map確認合法空域，查天氣，查機體狀況<br>
+  <strong>飛行中看</strong>：保持VLOS目視接觸，監控電量，注意周遭環境<br>
+  <strong>飛行後記</strong>：記錄飛行日誌，累積安全飛行時數，記錄異常事項</p>
+</div>
+
+<h3 style="color:#1B6CA8; border-bottom:2px solid #1B6CA8;">★ 綜合模擬測驗（20 題，跨全章節）</h3>
+<p style="color:#64748B; margin-bottom:14px;">以下題目涵蓋第一至第八章全範圍，模擬實際考試情境，建議計時作答（建議25分鐘）。</p>
+
+<div class="q-item"><p class="q-num">1.</p><p class="q-text">遙控無人機定義為何？</p><ul class="q-opts"><li>(A) 自遙控設備以信號鏈路進行飛航控制之無人航空器</li><li>(B) 以無線電波控制之航空器</li><li>(C) 以電腦程式全自動控制之飛行器</li><li>(D) 以上皆是</li></ul></div>
+
+<div class="q-item"><p class="q-num">2.</p><p class="q-text">從事休閒娛樂用途之遙控無人機活動，飛行高度上限為何？</p><ul class="q-opts"><li>(A) 200呎</li><li>(B) 400呎</li><li>(C) 600呎</li><li>(D) 800呎</li></ul></div>
+
+<div class="q-item"><p class="q-num">3.</p><p class="q-text">遙控無人機所有人或操作人違反「禁航區、限航區及機場四周飛行」規定，最高罰鍰為多少？</p><ul class="q-opts"><li>(A) 15萬元</li><li>(B) 30萬元</li><li>(C) 100萬元</li><li>(D) 150萬元</li></ul></div>
+
+<div class="q-item"><p class="q-num">4.</p><p class="q-text">飛控系統中，作為輸入裝置用以保持控制精度的是哪個組件？</p><ul class="q-opts"><li>(A) 機載計算機</li><li>(B) 感測器</li><li>(C) 伺服器</li><li>(D) 遙控器</li></ul></div>
+
+<div class="q-item"><p class="q-num">5.</p><p class="q-text">柏努利定律說明流體速度越快，壓力會有何變化？</p><ul class="q-opts"><li>(A) 壓力增加</li><li>(B) 壓力不變</li><li>(C) 壓力降低</li><li>(D) 無法判斷</li></ul></div>
+
+<div class="q-item"><p class="q-num">6.</p><p class="q-text">無人多旋翼機具備優秀的哪種能力是固定翼無人機望塵莫及的？</p><ul class="q-opts"><li>(A) 高速飛行</li><li>(B) 懸停</li><li>(C) 長航時</li><li>(D) 高海拔飛行</li></ul></div>
+
+<div class="q-item"><p class="q-num">7.</p><p class="q-text">遙控無人機重心位置超出允許範圍，可能造成什麼後果？</p><ul class="q-opts"><li>(A) 飛行更穩定</li><li>(B) 電池消耗加快</li><li>(C) 難以控制甚至失控</li><li>(D) 無影響</li></ul></div>
+
+<div class="q-item"><p class="q-num">8.</p><p class="q-text">空氣密度增加對升力有何影響？</p><ul class="q-opts"><li>(A) 升力降低</li><li>(B) 升力不變</li><li>(C) 升力增加</li><li>(D) 無法判斷</li></ul></div>
+
+<div class="q-item"><p class="q-num">9.</p><p class="q-text">過度換氣若無法改善，可能讓操作人進入哪種狀態？</p><ul class="q-opts"><li>(A) 神經緊張</li><li>(B) 意識不清</li><li>(C) 心情鬱悶</li><li>(D) 過度亢奮</li></ul></div>
+
+<div class="q-item"><p class="q-num">10.</p><p class="q-text">操作遙控無人機時，最多可同時控制幾架？（休閒娛樂用途）</p><ul class="q-opts"><li>(A) 1架</li><li>(B) 2架</li><li>(C) 3架</li><li>(D) 無限制</li></ul></div>
+
+<div class="q-item"><p class="q-num">11.</p><p class="q-text">為法人從事業務之遙控無人機操作人，依法須強制加入何種保險？</p><ul class="q-opts"><li>(A) 地震險</li><li>(B) 責任險</li><li>(C) 颱風險</li><li>(D) 醫療險</li></ul></div>
+
+<div class="q-item"><p class="q-num">12.</p><p class="q-text">遙控無人機未登記即飛行（250克以上），最低罰鍰為何？</p><ul class="q-opts"><li>(A) 1,000元</li><li>(B) 3,000元</li><li>(C) 6,000元</li><li>(D) 10,000元</li></ul></div>
+
+<div class="q-item"><p class="q-num">13.</p><p class="q-text">遙控無人機飛行中訊號中斷，已設定RTH，操作人應如何？</p><ul class="q-opts"><li>(A) 立即放棄無人機</li><li>(B) 保持冷靜等待自動返航</li><li>(C) 跑向無人機位置</li><li>(D) 立即聯絡航空警察局</li></ul></div>
+
+<div class="q-item"><p class="q-num">14.</p><p class="q-text">無人直昇機尾旋翼的主要功能為何？</p><ul class="q-opts"><li>(A) 提供升力</li><li>(B) 抵消主旋翼反扭力並執行偏航控制</li><li>(C) 提高飛行速度</li><li>(D) 協助起降</li></ul></div>
+
+<div class="q-item"><p class="q-num">15.</p><p class="q-text">高密度高度環境不會出現在哪裡？</p><ul class="q-opts"><li>(A) 高溫處</li><li>(B) 低海拔處</li><li>(C) 潮濕處</li><li>(D) 低氣壓處</li></ul></div>
+
+<div class="q-item"><p class="q-num">16.</p><p class="q-text">操作人不得無故利用遙控無人機於下列哪個場所進行飛航活動？</p><ul class="q-opts"><li>(A) 公共廣場</li><li>(B) 河濱公園</li><li>(C) 私人庭院、學校教室、辦公室場所</li><li>(D) 農田</li></ul></div>
+
+<div class="q-item"><p class="q-num">17.</p><p class="q-text">螺旋槳轉速通常以什麼單位表示？</p><ul class="q-opts"><li>(A) km/h</li><li>(B) RPM</li><li>(C) kW</li><li>(D) dB</li></ul></div>
+
+<div class="q-item"><p class="q-num">18.</p><p class="q-text">遙控無人機重量增加，對起飛速度的影響為何？</p><ul class="q-opts"><li>(A) 降低</li><li>(B) 不變</li><li>(C) 增加</li><li>(D) 無影響</li></ul></div>
+
+<div class="q-item"><p class="q-num">19.</p><p class="q-text">航空站或飛行場四周之一定距離範圍係由哪個機關公告？</p><ul class="q-opts"><li>(A) 內政部</li><li>(B) 國防部</li><li>(C) 民航局</li><li>(D) 地方政府</li></ul></div>
+
+<div class="q-item"><p class="q-num">20.</p><p class="q-text">遙控無人機控制鏈路為保密與抗干擾，目前基本上全面採行哪種方式？</p><ul class="q-opts"><li>(A) 類比傳輸</li><li>(B) 人工加密</li><li>(C) 數位加密</li><li>(D) 衛星加密</li></ul></div>
+
+<div class="answer-key">
+  <strong>綜合模擬測驗答案：</strong>
+  <span>1.(A)　2.(B)　3.(D)　4.(B)　5.(C)　6.(B)　7.(C)　8.(C)　9.(B)　10.(A)　11.(B)　12.(B)　13.(B)　14.(B)　15.(B)　16.(C)　17.(B)　18.(C)　19.(C)　20.(C)</span>
+</div>
+
+<div class="summary-box" style="margin-top:20px;">
+  <h4>全課程學習總結</h4>
+  <ul>
+    <li><strong>第一～二章</strong>：法規是一切的基礎，先懂規則再飛行</li>
+    <li><strong>第三～六章</strong>：了解機體原理，才能在異常時做出正確判斷</li>
+    <li><strong>第七章</strong>：天氣是飛行的最大變數，飛前必查</li>
+    <li><strong>第八～九章</strong>：人為因素與決策能力，是最後的安全防線</li>
+    <li>考照建議：本題庫每章題目務必熟讀，掌握每題選項背後的概念而非死背答案</li>
+  </ul>
+</div>
+</div>
+
+</body>
+</html>
